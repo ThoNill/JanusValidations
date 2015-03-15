@@ -1,0 +1,17 @@
+<RULES>
+
+	<RULE class="org.janus.standardrules.SqlRule" name="n1" 
+		stmt=" select count(*) from namen "
+		fields="count1" />
+
+	<RULE class="org.janus.standardrules.SqlRule" name="n2"
+		stmt=" select count(*) from namen1 " 
+		fields="count2" />
+
+	<ACTION class="org.janus.standardrules.SqlAction"
+		stmt=" select count(*) from namen "
+		values="count" />
+
+
+	<LISTENER class="org.janus.rules.ValidationRuleEventLogger" />
+</RULES>

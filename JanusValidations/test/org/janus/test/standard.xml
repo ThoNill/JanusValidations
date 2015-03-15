@@ -1,0 +1,35 @@
+<RULES>
+	<RULE name="r1" class="org.janus.standardrules.LengthRule" min="5" max="7" field="vorname" />
+	<RULE name="r2" class="org.janus.standardrules.RegExpRule" pattern="^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$" field="datum" />
+	<RULE name="r3" class="org.janus.standardrules.CompareRule" modus="EQ" a="5" b="$(b)" fields="b" />
+	<RULE name="r4" class="org.janus.standardrules.BetweenRule" min="0" x="$(x)" max="10" fields="x" />
+	<RULE name="r5" class="org.janus.standardrules.DistanceRule" minDistance="0" a="5" b="$(d)" maxDistance="10" fields="d" />
+	
+	<IF name="if1" pattern="^0$" field="ifswitch1" >
+	  <TRUE>
+			<RULE name="r1if1" class="org.janus.standardrules.LengthRule" min="5" max="7" field="fif1" />	  
+	  </TRUE>
+	  <FALSE>
+	  		<RULE name="r2if1" class="org.janus.standardrules.LengthRule" min="10" max="17" field="fif1" />
+	  </FALSE>
+	</IF>
+
+	<OR name="or" fields="for1,for2" >
+		<RULE name="ror1" class="org.janus.standardrules.LengthRule" min="5" max="7" field="for1" />	  
+  		<RULE name="ror2" class="org.janus.standardrules.LengthRule" min="10" max="17" field="for2" />
+	</OR>
+
+	<AND name="and"  fields="fand1,fand2">
+		<RULE name="rand1" class="org.janus.standardrules.LengthRule" min="5" max="7" field="fand1" />	  
+  		<RULE name="rand2" class="org.janus.standardrules.LengthRule" min="10" max="17" field="fand2" />
+	</AND>
+
+	<NOT name="not"  fields="fnot">
+		<RULE name="rnot" class="org.janus.standardrules.LengthRule" min="5" max="7" field="fnot" />	  
+	</NOT>
+
+
+	
+	<LISTENER class="org.janus.rules.ValidationRuleEventLogger" />
+	
+</RULES>

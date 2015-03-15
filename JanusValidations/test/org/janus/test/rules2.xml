@@ -1,0 +1,19 @@
+<RULES>
+	<RULE class="org.janus.standardrules.FocusRequestRule"
+		field="button" />
+	<RULE class="org.janus.standardrules.FocusRequestRule" field="name" />
+	<RULE class="org.janus.standardrules.FocusRequestRule"
+		field="vorname"  message="textName" />
+	<RULE class="org.janus.standardrules.FocusRequestRule" field="datum" />
+
+
+	<RULE class="org.janus.standardrules.LengthRule" min="5" max="7"
+		field="vorname"  message="textVorname" />
+	<RULE class="org.janus.standardrules.RegExpRule"
+		pattern="^[0-9]{2}\.[0-9]{2}\.[0-9]{4}$" field="datum"  message="textDatum" />
+	<RULE class="org.janus.standardrules.RegExpRule" pattern="^[0-9]*$"
+		field="name"  message="textName" />
+	<RULE class="org.janus.standardrules.RhinoRule" script=" 3 > 4 "
+		move="name" />
+	<LISTENER class="org.janus.rules.ValidationRuleEventLogger" />
+</RULES>
