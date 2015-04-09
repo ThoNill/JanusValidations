@@ -1,5 +1,6 @@
 package org.janus.db;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -48,7 +49,7 @@ public class Statement {
 	boolean withCache = true;
 
 	/**
-	 * Schlüssel auf den Cahewert im DataContext
+	 * Schlüssel auf den Cachewert im DataContext
 	 */
 	int cache;
 
@@ -142,7 +143,7 @@ public class Statement {
 
 					if (result.next()) {
 						for (int i = 0; i < keys.length; i++) {
-							ctx.setObject(keys[i], result.getObject(i + 1));
+							ctx.setObject(keys[i], (Serializable)result.getObject(i + 1));
 						}
 					} else {
 						for (int i = 0; i < keys.length; i++) {
@@ -156,7 +157,7 @@ public class Statement {
 						// oder Eventuell neu erzeugen;
 						if (c == null) {
 							c = new StatementCache();
-							c.values = new Object[keys.length];
+							c.values = new Serializable[keys.length];
 						}
 						// den Cache mit Werten versorgen
 						c.sStmt = sStmt;
@@ -210,14 +211,14 @@ public class Statement {
 		boolean closeConnection = false;
 		con = ctx.getConnection();
 
-		Object res = null;
+		Serializable res = null;
 		if (con != null) {
 			java.sql.Statement stmt = con.createStatement();
 			if (stmt != null) {
 				ResultSet result = stmt.executeQuery(sStmt);
 				if (result.next()) {
 					for (int i = 0; i < keys.length; i++) {
-						res = result.getObject(1);
+						res = (Serializable)result.getObject(1);
 					}
 				}
 				result.close();
@@ -234,7 +235,7 @@ public class Statement {
 			// oder Eventuell neu erzeugen;
 			if (c == null) {
 				c = new StatementCache();
-				c.values = new Object[1];
+				c.values = new Serializable[1];
 			}
 			// den Cache mit Werten versorgen
 			c.sStmt = sStmt;
@@ -248,7 +249,7 @@ public class Statement {
 	}
 }
 
-class StatementCache {
+class StatementCache implements Serializable{
 	public String sStmt;
-	public Object[] values;
+	public Serializable[] values;
 }
