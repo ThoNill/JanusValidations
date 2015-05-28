@@ -44,8 +44,6 @@ public abstract class EventExtension<K> implements Configurable {
 	@SuppressWarnings("unchecked")
 	public K getData(ValidationRuleEvent ev) {
 		DebugAssistent.doNullCheck(ev);
-
-		System.out.println(ev.toString());
 		return (K) extensionData[ev.getIndex()];
 	}
 

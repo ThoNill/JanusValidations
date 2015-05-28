@@ -24,7 +24,6 @@ public class ValidationRuleListenerElement extends TransferAttributesElement {
 
 	public ValidationRuleListener getRuleListener() {
 		String classname = getAttributeValue("class");
-		System.out.println(classname);
 		Object obj = DefaultClassFactory.FACTORY.getInstance(classname,
 				ValidationRuleListener.class);
 		if (obj != null) {
