@@ -29,26 +29,30 @@ import org.janus.rules.RuleDescription;
 import org.janus.rules.ValidationRuleMaschine;
 import org.janus.xml.ValidationRuleElementFactory;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import test.janus.db.ConnectionSource;
 
 public class SqlTest {
-	private DataSource dataSource;
+	private static DataSource dataSource;
 
 	public SqlTest() {
 	}
 
-	@Before
-	public void init() throws Exception {
+	@BeforeClass
+	public static void init() throws Exception {
+		
 
 		PropertyConfigurator.configure(First.class.getClassLoader()
 				.getResource("config/log4j.properties"));
 
-		dataSource = ConnectionSource.getDataSource();
 
-		File f = new File("./mybase1");
+		mybaseEntfernen();
+		dataSource = ConnectionSource.getDataSource();
+		File f = new File("mybase1");
 		boolean createTables = !f.exists();
 		if (createTables) {
 			doStatement(" CREATE Table namen ( name char(10) )");
@@ -57,8 +61,35 @@ public class SqlTest {
 		}
 
 	}
+	
+	@AfterClass
+	public static void deinit() throws Exception {
 
-	public void doStatement(String s) throws Exception {
+		mybaseEntfernen();
+
+	}
+
+	private static void mybaseEntfernen() {
+		File f = new File("mybase1");
+		boolean deleteTables = f.exists();
+		if (deleteTables) {
+			cleanDir(f);
+		}
+	}
+
+	private static void cleanDir(File p) {
+		File files[] = p.listFiles();
+		for(File f : files) {
+			if (f.isDirectory()) {
+				cleanDir(f);
+			} else {
+				f.delete();
+			}
+		}
+		p.delete();
+	}
+
+	public static void doStatement(String s) throws Exception {
 		Connection con = getConnection();
 		Statement stmt = con.createStatement();
 		stmt.execute(s);
@@ -67,7 +98,7 @@ public class SqlTest {
 		con.close();
 	}
 
-	protected Connection getConnection() throws Exception {
+	protected static Connection getConnection() throws Exception {
 		// return
 		// DriverManager.getConnection("jdbc:apache:commons:dbcp:testpool2");
 		return dataSource.getConnection();
@@ -134,7 +165,7 @@ public class SqlTest {
 	public void test3() throws Exception {
 		RuleDescription model = new RuleDescription();
 		ValidationRuleMaschine rules = ValidationRuleElementFactory
-				.createRuleList(model, "./test/org/janus/test/", "sql1.xml");
+				.createRuleList(model, "test/org/janus/test/", "sql1.xml");
 		rules.configure(model);
 
 		DataContextWithConnection ctx = new DataContextWithConnection(model);
@@ -152,10 +183,6 @@ public class SqlTest {
 			assertTrue(((Number) c).intValue() == 1);
 		}
 
-	}
-
-	@After
-	public void deinit() throws Exception {
 	}
 
 }

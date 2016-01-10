@@ -57,7 +57,6 @@
 		</dependency>
 
 
-
 		<dependency>
 			<groupId>thomas.nill</groupId>
 			<artifactId>JanusData</artifactId>
@@ -83,6 +82,7 @@
 
 
 	<build>
+		<defaultGoal>clean install</defaultGoal>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 		<testResources>
