@@ -88,8 +88,8 @@ public class SqlTest {
                 }
             }
         }
-        if (p.delete()) {
-            throw new IOException("can not remove the file " + p.getPath());
+       if (!p.delete()) {
+           throw new IOException("can not remove the file " + p.getPath());
         }
     }
 
