@@ -21,5 +21,5 @@ package org.janus.standardrules;
  * @see CompareRule
  */
 public enum CompareModus {
-	EQ, NEQ, GT, LT, GET, LET
+    EQ, NEQ, GT, LT, GET, LET
 }

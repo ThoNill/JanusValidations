@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.janus.data.ClassFactory;
+import org.apache.log4j.Logger;
 import org.janus.data.DefaultClassFactory;
 import org.janus.helper.DebugAssistent;
 
@@ -18,38 +18,40 @@ import org.janus.helper.DebugAssistent;
  * 
  */
 public class MessageSource {
-	/**
-	 * Globale Map mit den Daten der Property-Dateien
-	 */
-	private static HashMap<String, Properties> map = new HashMap<String, Properties>();
+    private static final Logger LOG = Logger.getLogger(MessageSource.class);
+    /**
+     * Globale Map mit den Daten der Property-Dateien
+     */
+    private static HashMap<String, Properties> map = new HashMap<String, Properties>();
 
-	/**
-	 * Holt den in einer text/*.properties Datei enthaltenen Text.
-	 * 
-	 * @param messageFileName
-	 * @param msgKey
-	 * @return
-	 */
-	public static String getText(String messageFileName, String msgKey) {
-		DebugAssistent.doNullCheck(messageFileName, msgKey);
+    /**
+     * Holt den in einer text/*.properties Datei enthaltenen Text.
+     * 
+     * @param messageFileName
+     * @param msgKey
+     * @return
+     */
+    public static String getText(String messageFileName, String msgKey) {
+        DebugAssistent.doNullCheck(messageFileName, msgKey);
 
-		if (map == null) {
-			map = new HashMap<String, Properties>();
-		}
-		Properties p = map.get(messageFileName);
-		if (p == null) {
-			// wenn in der globalen Map noch nicht vorhanden, Texte laden.
-			p = new Properties();
-			try {
-				p.load(DefaultClassFactory.FACTORY.getResource("text/" + messageFileName
-						+ ".properties"));
-				map.put(messageFileName, p);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return msgKey;
-			}
-		}
-		String smsg = p.getProperty(msgKey);
-		return (smsg == null) ? msgKey : smsg;
-	}
+        if (map == null) {
+            map = new HashMap<String, Properties>();
+        }
+        Properties p = map.get(messageFileName);
+        if (p == null) {
+            // wenn in der globalen Map noch nicht vorhanden, Texte laden.
+            p = new Properties();
+            try {
+                p.load(DefaultClassFactory.FACTORY.getResource("text/"
+                        + messageFileName + ".properties"));
+                map.put(messageFileName, p);
+            } catch (IOException e) {
+                LOG.error("Fehler", e);
+                ;
+                return msgKey;
+            }
+        }
+        String smsg = p.getProperty(msgKey);
+        return (smsg == null) ? msgKey : smsg;
+    }
 }

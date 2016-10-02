@@ -11,7 +11,7 @@ import org.janus.data.DataDescription;
  * 
  */
 public interface ValidationRuleListener {
-	void configure(DataDescription model);
+    void configure(DataDescription model);
 
-	void consumeEvent(ValidationRuleEvent ev, DataContext context);
+    void consumeEvent(ValidationRuleEvent ev, DataContext context);
 }

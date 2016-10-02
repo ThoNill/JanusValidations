@@ -16,5 +16,5 @@ import org.janus.data.DataContext;
  * 
  */
 public interface Rule extends Action, Validator {
-	int getEventCount();
+    int getEventCount();
 }

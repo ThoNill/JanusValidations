@@ -1,6 +1,7 @@
 package org.janus.rules;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.janus.data.DataDescriptionImpl;
 import org.janus.helper.DebugAssistent;
@@ -13,24 +14,24 @@ import org.janus.helper.DebugAssistent;
 
 public class RuleDescription extends DataDescriptionImpl {
 
-	private Vector<ValidationRuleEvent> events = new Vector<>();
+    private List<ValidationRuleEvent> events = new ArrayList<>();
 
-	public RuleDescription() {
-		// TODO Auto-generated constructor stub
-	}
+    public RuleDescription() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public void registerEvent(ValidationRuleEvent ev) {
-		DebugAssistent.doNullCheck(ev);
+    public void registerEvent(ValidationRuleEvent ev) {
+        DebugAssistent.doNullCheck(ev);
 
-		ev.setIndex(events.size());
-		events.add(ev);
-	}
+        ev.setIndex(events.size());
+        events.add(ev);
+    }
 
-	public int getEventCount() {
-		return events.size();
-	}
+    public int getEventCount() {
+        return events.size();
+    }
 
-	public ValidationRuleEvent getEvent(int index) {
-		return events.get(index);
-	}
+    public ValidationRuleEvent getEvent(int index) {
+        return events.get(index);
+    }
 }

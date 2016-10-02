@@ -5,11 +5,11 @@ import org.janus.fluentSql.Table;
 
 public class KUNDE extends Table {
 
-	public KUNDE() {
-		super();
-	}
+    public KUNDE() {
+        super();
+    }
 
-	public Field name() {
-		return new Field(this, "name");
-	}
+    public Field name() {
+        return new Field(this, "name");
+    }
 }

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
 import org.janus.data.DataDescriptionImpl;
 import org.janus.database.DataContextWithConnection;
 import org.junit.Before;
@@ -25,55 +26,63 @@ import com.ninja_squad.dbsetup.destination.DataSourceDestination;
 import com.ninja_squad.dbsetup.operation.Operation;
 
 public class BuildDbTest {
+    private static final Logger LOG = Logger.getLogger(BuildDbTest.class);
 
-	public BuildDbTest() {
-	}
+    public BuildDbTest() {
+    }
 
-	private DataDescriptionImpl description = new DataDescriptionImpl();
-	private DataContextWithConnection dataSource = new DataContextWithConnection(
-			description);
+    private DataDescriptionImpl description = new DataDescriptionImpl();
+    private DataContextWithConnection dataSource = new DataContextWithConnection(
+            description);
 
-	@Before
-	public void prepare() throws Exception {
-		dataSource.setConnectionSource(ConnectionSource.getDataSource());
-		try (Connection con = dataSource.getConnection()) {
+    @Before
+    public void prepare() throws ClassNotFoundException {
+        dataSource.setConnectionSource(ConnectionSource.getDataSource());
+        try (Connection con = dataSource.getConnection()) {
 
-			Object sql = create("VENDOR").field("ID").t_int().field("NAME")
-					.t_char(20);
-			Statement stmt = con.createStatement();
-			stmt.execute(sql.toString());
-		} catch (SQLException ex) {
-			if (ex.getErrorCode() != 30000) {
-				ex.printStackTrace();
-			}
-		}
+            Object sql = create("VENDOR").field("ID").t_int().field("NAME")
+                    .t_char(20);
+            Statement stmt = con.createStatement();
+            stmt.execute(sql.toString());
+            stmt.close();
+        } catch (SQLException ex) {
+            if (ex.getErrorCode() != 30000) {
+                LOG.error("Fehler", ex);
+                ;
+            } else {
+                LOG.warn("Warnung", ex);
+                ;
+            }
+        }
 
-		Operation operation = sequenceOf(deleteAllFrom("VENDOR"),
-				insertInto("VENDOR").columns("ID", "NAME").values(1, "Amazon")
-						.values(2L, "PriceMinister").build());
-		DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource),
-				operation);
-		dbSetup.launch();
-	}
+        Operation operation = sequenceOf(deleteAllFrom("VENDOR"),
+                insertInto("VENDOR").columns("ID", "NAME").values(1, "Amazon")
+                        .values(2L, "PriceMinister").build());
+        DbSetup dbSetup = new DbSetup(new DataSourceDestination(dataSource),
+                operation);
+        dbSetup.launch();
+    }
 
-	@Test
-	public void dbVerbindung() {
-		Object sql = select().column("NAME").from("VENDOR").where().field("ID")
-				.eq().integer(1);
-		Connection con;
-		try {
-			con = dataSource.getConnection();
-			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery(sql.toString());
-			if (result.next()) {
-				assertEquals("Amazon", result.getString(1).trim());
-			}
-			result.close();
-			stmt.close();
-			con.close();
-		} catch (SQLException e) {
-			fail(e.getLocalizedMessage());
-		}
-	}
+    @Test
+    public void dbVerbindung() {
+        Object sql = select().column("NAME").from("VENDOR").where().field("ID")
+                .eq().integer(1);
+        Connection con;
+        try {
+            con = dataSource.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery(sql.toString());
+            if (result.next()) {
+                assertEquals("Amazon", result.getString(1).trim());
+            }
+            result.close();
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            LOG.error("Fehler", e);
+            ;
+            fail(e.getLocalizedMessage());
+        }
+    }
 
 }

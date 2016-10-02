@@ -1,5 +1,6 @@
 package org.janus.standardrules;
 
+import org.apache.log4j.Logger;
 import org.janus.actions.Action;
 import org.janus.data.DataContext;
 import org.janus.data.DataDescription;
@@ -14,38 +15,40 @@ import org.janus.helper.DebugAssistent;
  * 
  */
 public class SqlAction implements Action {
+    private static final Logger LOG = Logger.getLogger(SqlAction.class);
 
-	private Statement stmt;
+    private Statement stmt;
 
-	public SqlAction() {
-		stmt = new Statement();
-	}
+    public SqlAction() {
+        stmt = new Statement();
+    }
 
-	public void setStmt(String text) {
-		DebugAssistent.doNullCheck(text);
+    public void setStmt(String text) {
+        DebugAssistent.doNullCheck(text);
 
-		this.stmt.setText(text);
-	}
+        this.stmt.setText(text);
+    }
 
-	public void setValues(String values) {
-		this.stmt.setValues(values);
-	}
+    public void setValues(String values) {
+        this.stmt.setValues(values);
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		DebugAssistent.doNullCheck(model);
-		stmt.setModel(model);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        DebugAssistent.doNullCheck(model);
+        stmt.setModel(model);
+    }
 
-	@Override
-	public void perform(DataContext ctx) {
-		DebugAssistent.doNullCheckAndOfType(DataContextWithConnection.class,
-				ctx);
-		try {
-			stmt.execute((DataContextWithConnection) ctx);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void perform(DataContext ctx) {
+        DebugAssistent.doNullCheckAndOfType(DataContextWithConnection.class,
+                ctx);
+        try {
+            stmt.execute((DataContextWithConnection) ctx);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            LOG.error("Fehler", e);
+            ;
+        }
+    }
 }

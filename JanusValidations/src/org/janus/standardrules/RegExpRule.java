@@ -12,35 +12,35 @@ import org.janus.helper.DebugAssistent;
  * 
  */
 public class RegExpRule extends OneFieldRule {
-	private Pattern pattern;
+    private Pattern pattern;
 
-	public RegExpRule() {
-		super(null);
-	}
+    public RegExpRule() {
+        super(null);
+    }
 
-	@Override
-	public boolean isOk(DataContext ctx) {
-		Object o = getField(ctx);
-		if (o instanceof String) {
-			return pattern.matcher((String) o).matches();
-		}
-		return false;
-	}
+    @Override
+    public boolean isOk(DataContext ctx) {
+        Object o = getField(ctx);
+        if (o instanceof String) {
+            return pattern.matcher((String) o).matches();
+        }
+        return false;
+    }
 
-	@Override
-	public void setDefaultMessage() {
-		setMessage("The field " + getField() + " = $(" + getField()
-				+ ") don't fullfill " + getPattern());
-	}
+    @Override
+    public void setDefaultMessage() {
+        setMessage("The field " + getField() + " = $(" + getField()
+                + ") don't fullfill " + getPattern());
+    }
 
-	public String getPattern() {
-		return pattern.pattern();
-	}
+    public String getPattern() {
+        return pattern.pattern();
+    }
 
-	public void setPattern(String pattern) {
-		DebugAssistent.doNullCheck(pattern);
+    public void setPattern(String pattern) {
+        DebugAssistent.doNullCheck(pattern);
 
-		this.pattern = Pattern.compile(pattern);
-	}
+        this.pattern = Pattern.compile(pattern);
+    }
 
 }

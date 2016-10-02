@@ -8,5 +8,5 @@ package org.janus.rules;
  * 
  */
 public enum ValidationRuleType {
-	INIT, START, STOP, RULE
+    INIT, START, STOP, RULE
 }

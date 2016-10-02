@@ -1,6 +1,7 @@
 package org.janus.standardrules;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.janus.actions.Action;
 import org.janus.data.DataContext;
@@ -21,116 +22,116 @@ import org.janus.rules.ValidationRuleType;
  */
 
 public abstract class LogicalRule extends MultiFieldRule implements
-		ValidationRuleListener {
+        ValidationRuleListener {
 
-	private int gesamtCount = 0;
+    private int gesamtCount = 0;
 
-	public LogicalRule() {
-		super();
-	}
+    public LogicalRule() {
+        super();
+    }
 
-	/*
-	 * Schlüssel für das Anzahl-Feld im Context Diese Anzahl zählt, wie oft
-	 * Kinder gefeuert haben.
-	 */
-	private int count = 0;
+    /*
+     * Schlüssel für das Anzahl-Feld im Context Diese Anzahl zählt, wie oft
+     * Kinder gefeuert haben.
+     */
+    private int count = 0;
 
-	/**
-	 * Liste der Kind Validierungen oder Aktionen
-	 */
-	private ActionList rules = null;
+    /**
+     * Liste der Kind Validierungen oder Aktionen
+     */
+    private ActionList rules = null;
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-		count = model.createAnonymousHandle();
-		gesamtCount = 0;
-		getRules().configure(model);
-		for (Action r : getRules().getRulesAndActions()) {
-			if (r instanceof BasisValidationRule) {
-				gesamtCount += ((BasisValidationRule) r).getEventCount();
-			}
-		}
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+        count = model.createAnonymousHandle();
+        gesamtCount = 0;
+        getRules().configure(model);
+        for (Action r : getRules().getRulesAndActions()) {
+            if (r instanceof BasisValidationRule) {
+                gesamtCount += ((BasisValidationRule) r).getEventCount();
+            }
+        }
+    }
 
-	/*
-	 * Liste der Kinder zurückgeben
-	 */
-	protected ActionList getRules() {
-		if (rules == null) {
-			rules = new ActionList();
-			rules.addRuleListener(this);
-		}
-		return rules;
-	}
+    /*
+     * Liste der Kinder zurückgeben
+     */
+    protected ActionList getRules() {
+        if (rules == null) {
+            rules = new ActionList();
+            rules.addRuleListener(this);
+        }
+        return rules;
+    }
 
-	/*
-	 * Kind hinzufügen
-	 */
-	public void addRule(Action r) {
-		DebugAssistent.doNullCheck(r);
+    /*
+     * Kind hinzufügen
+     */
+    public void addRule(Action r) {
+        DebugAssistent.doNullCheck(r);
 
-		getRules().addRuleOrAction(r);
+        getRules().addRuleOrAction(r);
 
-	}
+    }
 
-	/*
-	 * Kind entfernen
-	 */
-	public void removeRule(Action r) {
-		DebugAssistent.doNullCheck(r);
+    /*
+     * Kind entfernen
+     */
+    public void removeRule(Action r) {
+        DebugAssistent.doNullCheck(r);
 
-		if (r instanceof BasisValidationRule) {
-			((BasisValidationRule) r).removeRuleListener(this);
-		}
-		getRules().removeRuleOrAction(r);
-	}
+        if (r instanceof BasisValidationRule) {
+            ((BasisValidationRule) r).removeRuleListener(this);
+        }
+        getRules().removeRuleOrAction(r);
+    }
 
-	/*
-	 * Die Kinder werden ausgeführt. Dabei wird auch bestimmt, wieviele Events
-	 * überhaupt auftreten können.
-	 * 
-	 * @see
-	 * org.janus.rules.ValidationRuleOrAction#perform(test.janus.data.DataContext
-	 * )
-	 */
-	@Override
-	public void perform(DataContext ctx) {
-		DebugAssistent.doNullCheck(ctx);
+    /*
+     * Die Kinder werden ausgeführt. Dabei wird auch bestimmt, wieviele Events
+     * überhaupt auftreten können.
+     * 
+     * @see
+     * org.janus.rules.ValidationRuleOrAction#perform(test.janus.data.DataContext
+     * )
+     */
+    @Override
+    public void perform(DataContext ctx) {
+        DebugAssistent.doNullCheck(ctx);
 
-		// Neuer Zähler für gesendete Events
-		ctx.setObject(count, new Vector<ValidationRuleEvent>());
+        // Neuer Zähler für gesendete Events
+        ctx.setObject(count, new ArrayList<ValidationRuleEvent>());
 
-		getRules().perform(ctx);
+        getRules().perform(ctx);
 
-		Vector<ValidationRuleEvent> c = (Vector<ValidationRuleEvent>) ctx
-				.getObject(count);
-		if (!isOk(c.size(), gesamtCount)) {
-			if (getEventCount() > 0) {
-				fireEvents(ctx);
-			} else {
-				fireEvents(ctx, c);
-			}
-		}
-	}
+        List<ValidationRuleEvent> c = (List<ValidationRuleEvent>) ctx
+                .getObject(count);
+        if (!isOk(c.size(), gesamtCount)) {
+            if (getEventCount() > 0) {
+                fireEvents(ctx);
+            } else {
+                fireEvents(ctx, c);
+            }
+        }
+    }
 
-	protected abstract boolean isOk(int count2, int evCount);
+    protected abstract boolean isOk(int count2, int evCount);
 
-	/*
-	 * Zählen falls ein Event von einem Kind gefeuert wurde
-	 * 
-	 * @see org.janus.rules.ValidationRuleListener#consume(org.janus.rules.
-	 * ValidationRuleEvent, test.janus.data.DataContext)
-	 */
-	@Override
-	public void consumeEvent(ValidationRuleEvent ev, DataContext ctx) {
-		DebugAssistent.doNullCheck(ctx, ev);
+    /*
+     * Zählen falls ein Event von einem Kind gefeuert wurde
+     * 
+     * @see org.janus.rules.ValidationRuleListener#consume(org.janus.rules.
+     * ValidationRuleEvent, test.janus.data.DataContext)
+     */
+    @Override
+    public void consumeEvent(ValidationRuleEvent ev, DataContext ctx) {
+        DebugAssistent.doNullCheck(ctx, ev);
 
-		if (ValidationRuleType.RULE.equals(ev.getType())) {
-			Vector<ValidationRuleEvent> c = (Vector<ValidationRuleEvent>) ctx
-					.getObject(count);
-			c.add(ev);
-		}
-	}
+        if (ValidationRuleType.RULE.equals(ev.getType())) {
+            List<ValidationRuleEvent> c = (List<ValidationRuleEvent>) ctx
+                    .getObject(count);
+            c.add(ev);
+        }
+    }
 
 }

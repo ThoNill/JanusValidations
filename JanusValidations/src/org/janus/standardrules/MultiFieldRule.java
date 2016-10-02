@@ -26,47 +26,47 @@ import org.janus.rules.ValidationRuleWithSubrules;
  */
 public abstract class MultiFieldRule extends ValidationRuleWithSubrules {
 
-	private String fields;
+    private String fields;
 
-	public MultiFieldRule() {
-		super();
-	}
+    public MultiFieldRule() {
+        super();
+    }
 
-	public void addDefaultEvent(DataDescription model) {
-		DebugAssistent.doNullCheck(model);
+    public void addDefaultEvent(DataDescription model) {
+        DebugAssistent.doNullCheck(model);
 
-		if (fields != null && getEventCount() == 0) {
-			String[] mfields = fields.split(" +");
-			for (int i = 0; i < mfields.length; i++) {
-				model.getHandle(mfields[i]); // initialisiere das Feld
-				addEvent(new ValidationRuleEvent(ValidationRuleType.RULE,
-						getLevel(), getName(), mfields[i], getMessage()));
-			}
-		}
-	}
+        if (fields != null && getEventCount() == 0) {
+            String[] mfields = fields.split(" +");
+            for (int i = 0; i < mfields.length; i++) {
+                model.getHandle(mfields[i]); // initialisiere das Feld
+                addEvent(new ValidationRuleEvent(ValidationRuleType.RULE,
+                        getLevel(), getName(), mfields[i], getMessage()));
+            }
+        }
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-		addDefaultEvent(model);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+        addDefaultEvent(model);
+    }
 
-	@Override
-	public void setDefaultMessage() {
-		if (fields != null) {
-			setMessage("A " + getLevel().name()
-					+ " occured on one of the Fields " + " = [" + fields + "]");
-		}
-		;
-	}
+    @Override
+    public void setDefaultMessage() {
+        if (fields != null) {
+            setMessage("A " + getLevel().name()
+                    + " occured on one of the Fields " + " = [" + fields + "]");
+        }
+        ;
+    }
 
-	public String getFields() {
-		return fields;
-	}
+    public String getFields() {
+        return fields;
+    }
 
-	public void setFields(String fields) {
-		DebugAssistent.doNullCheck(fields);
-		this.fields = fields;
-	}
+    public void setFields(String fields) {
+        DebugAssistent.doNullCheck(fields);
+        this.fields = fields;
+    }
 
 }

@@ -10,5 +10,5 @@ import org.janus.data.DataContext;
  */
 
 public interface Validator extends Configurable {
-	boolean isOk(DataContext ctx);
+    boolean isOk(DataContext ctx);
 }

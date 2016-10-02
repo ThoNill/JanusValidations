@@ -12,28 +12,28 @@ import org.jdom.Element;
  */
 public class ValidationRuleListElement extends Element {
 
-	private static final long serialVersionUID = -2551566740514374362L;
+    private static final long serialVersionUID = -2551566740514374362L;
 
-	public ValidationRuleListElement() {
-		super();
-	}
+    public ValidationRuleListElement() {
+        super();
+    }
 
-	public ValidationRuleMaschine getRuleList(RuleDescription description) {
-		ValidationRuleMaschine ruleList = new ValidationRuleMaschine(
-				description);
-		for (Object o : getChildren()) {
-			Element e = (Element) o;
-			if (e instanceof ValidationRuleElement) {
-				ruleList.addRuleOrAction(((ValidationRuleElement) e)
-						.getRuleOrAction());
-			} else if (e instanceof ValidationRuleListenerElement) {
-				ruleList.addRuleListener(((ValidationRuleListenerElement) e)
-						.getRuleListener());
-			} else {
-				throw new RuntimeException(
-						"Only RULE, IF, LOAD and LISTENER tags are allowed");
-			}
-		}
-		return ruleList;
-	}
+    public ValidationRuleMaschine getRuleList(RuleDescription description) {
+        ValidationRuleMaschine ruleList = new ValidationRuleMaschine(
+                description);
+        for (Object o : getChildren()) {
+            Element e = (Element) o;
+            if (e instanceof ValidationRuleElement) {
+                ruleList.addRuleOrAction(((ValidationRuleElement) e)
+                        .getRuleOrAction());
+            } else if (e instanceof ValidationRuleListenerElement) {
+                ruleList.addRuleListener(((ValidationRuleListenerElement) e)
+                        .getRuleListener());
+            } else {
+                throw new IllegalArgumentException(
+                        "Only RULE, IF, LOAD and LISTENER tags are allowed");
+            }
+        }
+        return ruleList;
+    }
 }

@@ -24,38 +24,38 @@ import org.janus.data.Message;
  *
  */
 public class BetweenRule extends MultiFieldRule {
-	private String max;
-	private String min;
-	private String x;
+    private String max;
+    private String min;
+    private String x;
 
-	private int vmax;
-	private int vmin;
-	private Message vx;
+    private int vmax;
+    private int vmin;
+    private Message vx;
 
-	public void setMax(String max) {
-		this.max = max;
-	}
+    public void setMax(String max) {
+        this.max = max;
+    }
 
-	public void setMin(String min) {
-		this.min = min;
-	}
+    public void setMin(String min) {
+        this.min = min;
+    }
 
-	public void setX(String x) {
-		this.x = x;
-	}
+    public void setX(String x) {
+        this.x = x;
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-		vmax = Integer.parseInt(max);
-		vmin = Integer.parseInt(min);
-		vx = createMessage(model, x);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+        vmax = Integer.parseInt(max);
+        vmin = Integer.parseInt(min);
+        vx = createMessage(model, x);
+    }
 
-	@Override
-	public boolean isOk(DataContext ctx) {
-		long lx = toLong(vx.getMessage(ctx));
-		return (vmin <= lx && lx <= vmax);
-	}
+    @Override
+    public boolean isOk(DataContext ctx) {
+        long lx = toLong(vx.getMessage(ctx));
+        return (vmin <= lx && lx <= vmax);
+    }
 
 }

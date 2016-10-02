@@ -12,19 +12,19 @@ import org.janus.rules.ValidationLevel;
 
 public class FocusRequestRule extends OneFieldRule {
 
-	public FocusRequestRule() {
-		super();
-		setLevel(ValidationLevel.FOCUS);
-	}
+    public FocusRequestRule() {
+        super();
+        setLevel(ValidationLevel.FOCUS);
+    }
 
-	@Override
-	public boolean isOk(DataContext ctx) {
-		return false;
-	}
+    @Override
+    public boolean isOk(DataContext ctx) {
+        return false;
+    }
 
-	@Override
-	public void setDefaultMessage() {
-		setMessage("Focus request from " + getField());
-	}
+    @Override
+    public void setDefaultMessage() {
+        setMessage("Focus request from " + getField());
+    }
 
 }

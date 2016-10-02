@@ -9,6 +9,6 @@ import java.awt.Component;
  * 
  */
 public class ComponentKey {
-	public Component comp;
-	public int key;
+    public Component comp;
+    public int key;
 }

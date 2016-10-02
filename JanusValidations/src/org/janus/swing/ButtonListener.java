@@ -18,60 +18,60 @@ import org.janus.rules.ValidationRuleMaschine;
  * @see Analyse
  */
 public class ButtonListener implements ActionListener {
-	private JButton button;
+    private JButton button;
 
-	private DataContext context;
+    private DataContext context;
 
-	private ActionListener[] listeners;
+    private ActionListener[] listeners;
 
-	private ValidationRuleMaschine rules;
+    private ValidationRuleMaschine rules;
 
-	public void setButton(JButton button) {
-		DebugAssistent.doNullCheck(button);
+    public void setButton(JButton button) {
+        DebugAssistent.doNullCheck(button);
 
-		if (this.button != null) {
-			this.button.removeActionListener(this);
-			if (listeners != null) {
-				for (int i = 0; i < listeners.length; i++) {
-					this.button.addActionListener(listeners[i]);
-				}
-			}
-		}
-		;
-		this.button = button;
+        if (this.button != null) {
+            this.button.removeActionListener(this);
+            if (listeners != null) {
+                for (int i = 0; i < listeners.length; i++) {
+                    this.button.addActionListener(listeners[i]);
+                }
+            }
+        }
+        ;
+        this.button = button;
 
-		listeners = button.getActionListeners();
-		if (listeners != null) {
-			for (int i = 0; i < listeners.length; i++) {
-				button.removeActionListener(listeners[i]);
-			}
-		}
-		button.addActionListener(this);
-	}
+        listeners = button.getActionListeners();
+        if (listeners != null) {
+            for (int i = 0; i < listeners.length; i++) {
+                button.removeActionListener(listeners[i]);
+            }
+        }
+        button.addActionListener(this);
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent ev) {
-		DebugAssistent.doNullCheck(ev);
+    @Override
+    public void actionPerformed(ActionEvent ev) {
+        DebugAssistent.doNullCheck(ev);
 
-		if (listeners != null) {
-			for (int i = 0; i < listeners.length; i++) {
-				listeners[i].actionPerformed(ev);
-			}
-		}
-		rules.init(context);
-		rules.perform(context);
-	}
+        if (listeners != null) {
+            for (int i = 0; i < listeners.length; i++) {
+                listeners[i].actionPerformed(ev);
+            }
+        }
+        rules.init(context);
+        rules.perform(context);
+    }
 
-	public void setContext(DataContext context) {
-		DebugAssistent.doNullCheck(context);
+    public void setContext(DataContext context) {
+        DebugAssistent.doNullCheck(context);
 
-		this.context = context;
-	}
+        this.context = context;
+    }
 
-	public void setRules(ValidationRuleMaschine rules) {
-		DebugAssistent.doNullCheck(rules);
+    public void setRules(ValidationRuleMaschine rules) {
+        DebugAssistent.doNullCheck(rules);
 
-		this.rules = rules;
-	}
+        this.rules = rules;
+    }
 
 }

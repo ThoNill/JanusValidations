@@ -5,11 +5,11 @@ import org.janus.fluentSql.Table;
 
 public class BLZ extends Table {
 
-	public BLZ() {
-		super();
-	}
+    public BLZ() {
+        super();
+    }
 
-	public Field iban() {
-		return new Field(this, "iban");
-	}
+    public Field iban() {
+        return new Field(this, "iban");
+    }
 }

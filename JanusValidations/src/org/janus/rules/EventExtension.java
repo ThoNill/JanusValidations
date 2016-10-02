@@ -11,45 +11,45 @@ import org.janus.helper.DebugAssistent;
  */
 
 public abstract class EventExtension<K> implements Configurable {
-	private Object extensionData[];
+    private Object extensionData[];
 
-	public EventExtension(RuleDescription description) {
-		configure(description);
-	}
+    public EventExtension(RuleDescription description) {
+        configure(description);
+    }
 
-	public EventExtension() {
-	}
+    public EventExtension() {
+    }
 
-	protected abstract K createDataForEvent(ValidationRuleEvent ev);
+    protected abstract K createDataForEvent(ValidationRuleEvent ev);
 
-	@Override
-	public void configure(DataDescription description) {
-		DebugAssistent.doNullCheck(description);
+    @Override
+    public void configure(DataDescription description) {
+        DebugAssistent.doNullCheck(description);
 
-		RuleDescription ruleDescription = (RuleDescription) description;
-		int eventCount = ruleDescription.getEventCount();
-		if (extensionData == null || eventCount > extensionData.length) {
-			extensionData = new Object[eventCount];
-			for (int i = 0; i < eventCount; i++) {
-				extensionData[i] = createDataForEvent(ruleDescription
-						.getEvent(i));
-			}
-		}
-	}
+        RuleDescription ruleDescription = (RuleDescription) description;
+        int eventCount = ruleDescription.getEventCount();
+        if (extensionData == null || eventCount > extensionData.length) {
+            extensionData = new Object[eventCount];
+            for (int i = 0; i < eventCount; i++) {
+                extensionData[i] = createDataForEvent(ruleDescription
+                        .getEvent(i));
+            }
+        }
+    }
 
-	public int getEventCount() {
-		return extensionData.length;
-	}
+    public int getEventCount() {
+        return extensionData.length;
+    }
 
-	@SuppressWarnings("unchecked")
-	public K getData(ValidationRuleEvent ev) {
-		DebugAssistent.doNullCheck(ev);
-		return (K) extensionData[ev.getIndex()];
-	}
+    @SuppressWarnings("unchecked")
+    public K getData(ValidationRuleEvent ev) {
+        DebugAssistent.doNullCheck(ev);
+        return (K) extensionData[ev.getIndex()];
+    }
 
-	@SuppressWarnings("unchecked")
-	public K getData(int index) {
-		return (K) extensionData[index];
-	}
+    @SuppressWarnings("unchecked")
+    public K getData(int index) {
+        return (K) extensionData[index];
+    }
 
 }

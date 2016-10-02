@@ -2,8 +2,8 @@ package test.janus.tables;
 
 public class Tables {
 
-	public static KUNDE kunde = new KUNDE();
-	public static ADRESSE adresse = new ADRESSE();
-	public static BLZ blz = new BLZ();
+    public static final KUNDE kunde = new KUNDE();
+    public static final ADRESSE adresse = new ADRESSE();
+    public static final BLZ blz = new BLZ();
 
 }

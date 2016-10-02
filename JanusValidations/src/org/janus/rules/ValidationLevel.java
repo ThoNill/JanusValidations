@@ -8,5 +8,5 @@ package org.janus.rules;
  * 
  */
 public enum ValidationLevel {
-	FOCUS, WARNING, ERROR, FATAL
+    FOCUS, WARNING, ERROR, FATAL
 }

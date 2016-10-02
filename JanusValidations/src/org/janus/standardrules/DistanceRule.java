@@ -26,32 +26,32 @@ import org.janus.helper.DebugAssistent;
  */
 public class DistanceRule extends TwoFieldRule {
 
-	private int distMin;
-	private int distMax;
+    private int distMin;
+    private int distMax;
 
-	public void setMaxDistance(String maxDistance) {
-		DebugAssistent.doNullCheck(maxDistance);
+    public void setMaxDistance(String maxDistance) {
+        DebugAssistent.doNullCheck(maxDistance);
 
-		distMax = Integer.parseInt(maxDistance);
-	}
+        distMax = Integer.parseInt(maxDistance);
+    }
 
-	public void setMinDistance(String minDistance) {
-		DebugAssistent.doNullCheck(minDistance);
+    public void setMinDistance(String minDistance) {
+        DebugAssistent.doNullCheck(minDistance);
 
-		distMin = Integer.parseInt(minDistance);
-	}
+        distMin = Integer.parseInt(minDistance);
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+    }
 
-	@Override
-	protected boolean isOk(Object oa, Object ob, DataContext ctx) {
-		long la = toLong(oa);
-		long lb = toLong(ob);
+    @Override
+    protected boolean isOk(Object oa, Object ob, DataContext ctx) {
+        long la = toLong(oa);
+        long lb = toLong(ob);
 
-		return (distMin <= lb - la && lb - la <= distMax);
-	}
+        return (distMin <= lb - la && lb - la <= distMax);
+    }
 
 }

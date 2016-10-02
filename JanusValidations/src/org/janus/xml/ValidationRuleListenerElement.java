@@ -1,6 +1,5 @@
 package org.janus.xml;
 
-import org.janus.data.ClassFactory;
 import org.janus.data.DefaultClassFactory;
 import org.janus.rules.ValidationRuleListener;
 import org.janus.rules.ValidationRuleListenerList;
@@ -13,39 +12,39 @@ import org.janus.rules.ValidationRuleListenerList;
  */
 public class ValidationRuleListenerElement extends TransferAttributesElement {
 
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 303641869971579279L;
+    private static final long serialVersionUID = 303641869971579279L;
 
-	public ValidationRuleListenerElement() {
-		super();
-	}
+    public ValidationRuleListenerElement() {
+        super();
+    }
 
-	public ValidationRuleListener getRuleListener() {
-		String classname = getAttributeValue("class");
-		Object obj = DefaultClassFactory.FACTORY.getInstance(classname,
-				ValidationRuleListener.class);
-		if (obj != null) {
-			setAttributValues(obj);
-			if (obj instanceof ValidationRuleListenerList) {
-				ValidationRuleListenerList ar = (ValidationRuleListenerList) obj;
+    public ValidationRuleListener getRuleListener() {
+        String classname = getAttributeValue("class");
+        Object obj = DefaultClassFactory.FACTORY.getInstance(classname,
+                ValidationRuleListener.class);
+        if (obj != null) {
+            setAttributValues(obj);
+            if (obj instanceof ValidationRuleListenerList) {
+                ValidationRuleListenerList ar = (ValidationRuleListenerList) obj;
 
-				for (Object iobj : getChildren()) {
-					if (iobj instanceof ValidationRuleListenerElement) {
-						ValidationRuleListenerElement l = (ValidationRuleListenerElement) iobj;
-						ar.addRuleListener(l.getRuleListener());
-					} else {
-						throw new RuntimeException(
-								"Only LISTENER Tags ar allowed");
-					}
-				}
-			} else {
-				if (getChildren().size() > 0) {
-					throw new RuntimeException("No subtags allowed");
-				}
-			}
-		}
-		return (ValidationRuleListener) obj;
-	}
+                for (Object iobj : getChildren()) {
+                    if (iobj instanceof ValidationRuleListenerElement) {
+                        ValidationRuleListenerElement l = (ValidationRuleListenerElement) iobj;
+                        ar.addRuleListener(l.getRuleListener());
+                    } else {
+                        throw new IllegalArgumentException(
+                                "Only LISTENER Tags ar allowed");
+                    }
+                }
+            } else {
+                if (getChildren().size() > 0) {
+                    throw new IllegalArgumentException("No subtags allowed");
+                }
+            }
+        }
+        return (ValidationRuleListener) obj;
+    }
 }

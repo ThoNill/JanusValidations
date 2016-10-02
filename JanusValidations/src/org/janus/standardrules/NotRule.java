@@ -10,9 +10,9 @@ package org.janus.standardrules;
 
 public class NotRule extends LogicalRule {
 
-	@Override
-	public boolean isOk(int count, int countEvents) {
-		return (count > 0);
-	}
+    @Override
+    public boolean isOk(int count, int countEvents) {
+        return (count > 0);
+    }
 
 }

@@ -16,52 +16,52 @@ import org.janus.rules.Validator;
  */
 public abstract class OneFieldRule extends ValidationRuleWithSubrules {
 
-	private String field;
+    private String field;
 
-	private int iField;
+    private int iField;
 
-	public OneFieldRule(Validator validator) {
-		super(validator);
-	}
+    public OneFieldRule(Validator validator) {
+        super(validator);
+    }
 
-	public OneFieldRule() {
-		super();
-	}
+    public OneFieldRule() {
+        super();
+    }
 
-	public void addDefaultEvent() {
-		if (getEventCount() == 0) {
-			addEvent(new ValidationRuleEvent(ValidationRuleType.RULE,
-					getLevel(), getName(), getField(), getMessage()));
-		}
-	}
+    public void addDefaultEvent() {
+        if (getEventCount() == 0) {
+            addEvent(new ValidationRuleEvent(ValidationRuleType.RULE,
+                    getLevel(), getName(), getField(), getMessage()));
+        }
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-		addDefaultEvent();
-		iField = model.getHandle(field);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+        addDefaultEvent();
+        iField = model.getHandle(field);
+    }
 
-	@Override
-	public void setDefaultMessage() {
-		setMessage("A " + getLevel().name() + " occured on the Field " + field
-				+ " = [$(" + field + ")]");
-	}
+    @Override
+    public void setDefaultMessage() {
+        setMessage("A " + getLevel().name() + " occured on the Field " + field
+                + " = [$(" + field + ")]");
+    }
 
-	public Object getField(DataContext ctx) {
-		DebugAssistent.doNullCheck(ctx);
+    public Object getField(DataContext ctx) {
+        DebugAssistent.doNullCheck(ctx);
 
-		return ctx.getObject(iField);
-	}
+        return ctx.getObject(iField);
+    }
 
-	public String getField() {
-		return field;
-	}
+    public String getField() {
+        return field;
+    }
 
-	public void setField(String field) {
-		DebugAssistent.doNullCheck(field);
+    public void setField(String field) {
+        DebugAssistent.doNullCheck(field);
 
-		this.field = field;
-	}
+        this.field = field;
+    }
 
 }

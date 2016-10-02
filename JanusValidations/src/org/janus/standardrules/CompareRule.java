@@ -23,33 +23,33 @@ import org.janus.data.DataContext;
  * @see CompareModus
  */
 public class CompareRule extends TwoFieldRule {
-	protected CompareModus modus;
+    protected CompareModus modus;
 
-	public void setModus(String smodus) {
-		this.modus = CompareModus.valueOf(smodus);
-	}
+    public void setModus(String smodus) {
+        this.modus = CompareModus.valueOf(smodus);
+    }
 
-	@Override
-	protected boolean isOk(Object oa, Object ob, DataContext ctx) {
-		if (CompareModus.EQ == modus) {
-			return oa == ob || (oa != null && oa.equals(ob));
-		}
-		if (CompareModus.NEQ == modus) {
-			return !(oa == ob || (oa != null && oa.equals(ob)));
-		}
-		if (CompareModus.LT == modus) {
-			return toLong(oa) < toLong(ob);
-		}
-		if (CompareModus.GT == modus) {
-			return toLong(oa) > toLong(ob);
-		}
-		if (CompareModus.GET == modus) {
-			return toLong(oa) >= toLong(ob);
-		}
-		if (CompareModus.LET == modus) {
-			return toLong(oa) <= toLong(ob);
-		}
+    @Override
+    protected boolean isOk(Object oa, Object ob, DataContext ctx) {
+        if (CompareModus.EQ == modus) {
+            return oa == ob || (oa != null && oa.equals(ob));
+        }
+        if (CompareModus.NEQ == modus) {
+            return !(oa == ob || (oa != null && oa.equals(ob)));
+        }
+        if (CompareModus.LT == modus) {
+            return toLong(oa) < toLong(ob);
+        }
+        if (CompareModus.GT == modus) {
+            return toLong(oa) > toLong(ob);
+        }
+        if (CompareModus.GET == modus) {
+            return toLong(oa) >= toLong(ob);
+        }
+        if (CompareModus.LET == modus) {
+            return toLong(oa) <= toLong(ob);
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

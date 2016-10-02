@@ -14,38 +14,38 @@ import org.janus.helper.DebugAssistent;
  */
 public class SetValue implements Action {
 
-	private RhinoConnector rhino;
+    private RhinoConnector rhino;
 
-	private int iSet;
+    private int iSet;
 
-	private String set = null;
+    private String set = null;
 
-	public SetValue() {
-		rhino = new RhinoConnector();
-	}
+    public SetValue() {
+        rhino = new RhinoConnector();
+    }
 
-	public void setSet(String set) {
-		this.set = set;
-	}
+    public void setSet(String set) {
+        this.set = set;
+    }
 
-	public void setTo(String scriptText) {
-		DebugAssistent.doNullCheck(scriptText);
+    public void setTo(String scriptText) {
+        DebugAssistent.doNullCheck(scriptText);
 
-		rhino.setScript(scriptText);
-	}
+        rhino.setScript(scriptText);
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		DebugAssistent.doNullCheck(model);
+    @Override
+    public void configure(DataDescription model) {
+        DebugAssistent.doNullCheck(model);
 
-		rhino.configure(model);
-		iSet = model.getHandle(set);
-	}
+        rhino.configure(model);
+        iSet = model.getHandle(set);
+    }
 
-	@Override
-	public void perform(DataContext context) {
-		DebugAssistent.doNullCheck(context);
+    @Override
+    public void perform(DataContext context) {
+        DebugAssistent.doNullCheck(context);
 
-		context.setObject(iSet, rhino.getObject(context));
-	}
+        context.setObject(iSet, rhino.getObject(context));
+    }
 }

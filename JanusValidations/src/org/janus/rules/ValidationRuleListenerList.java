@@ -8,8 +8,8 @@ package org.janus.rules;
  */
 public interface ValidationRuleListenerList {
 
-	void addRuleListener(ValidationRuleListener l);
+    void addRuleListener(ValidationRuleListener l);
 
-	void removeRuleListener(ValidationRuleListener l);
+    void removeRuleListener(ValidationRuleListener l);
 
 }

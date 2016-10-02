@@ -13,41 +13,41 @@ import org.janus.message.MessageSource;
 
 public class MessageExtension extends EventExtension<MessageImpl> {
 
-	private String resourceName;
+    private String resourceName;
 
-	public MessageExtension(RuleDescription desc) {
-		super(desc);
-	}
+    public MessageExtension(RuleDescription desc) {
+        super(desc);
+    }
 
-	public String getResourceName() {
-		return resourceName;
-	}
+    public String getResourceName() {
+        return resourceName;
+    }
 
-	public void setResourceName(String resourceName) {
-		DebugAssistent.doNullCheck(resourceName);
+    public void setResourceName(String resourceName) {
+        DebugAssistent.doNullCheck(resourceName);
 
-		this.resourceName = resourceName;
-	}
+        this.resourceName = resourceName;
+    }
 
-	@Override
-	protected MessageImpl createDataForEvent(ValidationRuleEvent ev) {
-		DebugAssistent.doNullCheck(ev);
+    @Override
+    protected MessageImpl createDataForEvent(ValidationRuleEvent ev) {
+        DebugAssistent.doNullCheck(ev);
 
-		String message = ev.getMessage();
-		if (resourceName != null) {
-			message = MessageSource.getText(resourceName, message);
-		}
-		return new MessageImpl(message);
-	}
+        String message = ev.getMessage();
+        if (resourceName != null) {
+            message = MessageSource.getText(resourceName, message);
+        }
+        return new MessageImpl(message);
+    }
 
-	public String getMessage(ValidationRuleEvent ev, DataContext ctx) {
-		DebugAssistent.doNullCheck(ctx, ev);
+    public String getMessage(ValidationRuleEvent ev, DataContext ctx) {
+        DebugAssistent.doNullCheck(ctx, ev);
 
-		if (ev.getType() == ValidationRuleType.RULE) {
-			configure(ctx.getDataDescription());
-			return getData(ev).getMessage(ctx);
-		} else {
-			return "";
-		}
-	}
+        if (ev.getType() == ValidationRuleType.RULE) {
+            configure(ctx.getDataDescription());
+            return getData(ev).getMessage(ctx);
+        } else {
+            return "";
+        }
+    }
 }

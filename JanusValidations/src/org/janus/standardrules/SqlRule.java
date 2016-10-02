@@ -1,5 +1,6 @@
 package org.janus.standardrules;
 
+import org.apache.log4j.Logger;
 import org.janus.data.DataContext;
 import org.janus.data.DataDescription;
 import org.janus.database.DataContextWithConnection;
@@ -13,55 +14,57 @@ import org.janus.helper.DebugAssistent;
  * 
  */
 public class SqlRule extends MultiFieldRule {
+    private static final Logger LOG = Logger.getLogger(SqlRule.class);
 
-	private Statement stmt;
+    private Statement stmt;
 
-	public SqlRule() {
-		super();
-		stmt = new Statement();
-	}
+    public SqlRule() {
+        super();
+        stmt = new Statement();
+    }
 
-	public void setStmt(String text) {
-		DebugAssistent.doNullCheck(text);
+    public void setStmt(String text) {
+        DebugAssistent.doNullCheck(text);
 
-		this.stmt.setText(text);
-	}
+        this.stmt.setText(text);
+    }
 
-	@Override
-	public void setFields(String text) {
+    @Override
+    public void setFields(String text) {
 
-		super.setFields(text);
-		this.stmt.setValues(text);
-	}
+        super.setFields(text);
+        this.stmt.setValues(text);
+    }
 
-	@Override
-	public void configure(DataDescription model) {
-		super.configure(model);
-		stmt.setModel(model);
-	}
+    @Override
+    public void configure(DataDescription model) {
+        super.configure(model);
+        stmt.setModel(model);
+    }
 
-	@Override
-	public boolean isOk(DataContext ctx) {
-		DebugAssistent.doNullCheckAndOfType(DataContextWithConnection.class,
-				ctx);
+    @Override
+    public boolean isOk(DataContext ctx) {
+        DebugAssistent.doNullCheckAndOfType(DataContextWithConnection.class,
+                ctx);
 
-		try {
-			Object obj = stmt.queryObject((DataContextWithConnection) ctx);
-			if (obj instanceof Number) {
-				Number n = (Number) obj;
-				if (n.intValue() > 0) {
-					return true;
-				}
-			} else {
-				if (obj != null && !("".equals(obj.toString().trim()))) {
-					return true;
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// TODO Auto-generated method stub
-		return false;
-	}
+        try {
+            Object obj = stmt.queryObject((DataContextWithConnection) ctx);
+            if (obj instanceof Number) {
+                Number n = (Number) obj;
+                if (n.intValue() > 0) {
+                    return true;
+                }
+            } else {
+                if (obj != null && !("".equals(obj.toString().trim()))) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            LOG.error("Fehler", e);
+            ;
+        }
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

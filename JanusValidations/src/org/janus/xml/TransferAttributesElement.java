@@ -13,26 +13,26 @@ import org.jdom.Element;
  */
 public class TransferAttributesElement extends Element {
 
-	private static final long serialVersionUID = 3500730358690823720L;
+    private static final long serialVersionUID = 3500730358690823720L;
 
-	public TransferAttributesElement() {
-		super();
-	}
+    public TransferAttributesElement() {
+        super();
+    }
 
-	public void setAttributValues(Object obj) {
-		DebugAssistent.doNullCheck(obj);
+    public void setAttributValues(Object obj) {
+        DebugAssistent.doNullCheck(obj);
 
-		setAttributValues(this, obj);
-	}
+        setAttributValues(this, obj);
+    }
 
-	private static void setAttributValues(Element elem, Object obj) {
-		WrapDynaBean dBean = new WrapDynaBean(obj);
-		for (Object o : elem.getAttributes()) {
-			Attribute attribut = (Attribute) o;
-			if (!"class".equals(attribut.getName())) {
-				dBean.set(attribut.getName(), attribut.getValue());
-			}
-		}
-	}
+    private static void setAttributValues(Element elem, Object obj) {
+        WrapDynaBean dBean = new WrapDynaBean(obj);
+        for (Object o : elem.getAttributes()) {
+            Attribute attribut = (Attribute) o;
+            if (!"class".equals(attribut.getName())) {
+                dBean.set(attribut.getName(), attribut.getValue());
+            }
+        }
+    }
 
 }
