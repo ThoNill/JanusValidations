@@ -17,7 +17,7 @@ public class RuleDescription extends DataDescriptionImpl {
     private List<ValidationRuleEvent> events = new ArrayList<>();
 
     public RuleDescription() {
-        // TODO Auto-generated constructor stub
+        
     }
 
     public void registerEvent(ValidationRuleEvent ev) {

@@ -46,7 +46,7 @@ public class SqlAction implements Action {
         try {
             stmt.execute((DataContextWithConnection) ctx);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            
             LOG.error("Fehler", e);
             ;
         }

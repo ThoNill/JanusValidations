@@ -60,11 +60,11 @@ public class SqlRule extends MultiFieldRule {
                 }
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            
             LOG.error("Fehler", e);
             ;
         }
-        // TODO Auto-generated method stub
+        
         return false;
     }
 }
