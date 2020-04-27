@@ -3,10 +3,8 @@ package org.janus.test;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
-
 import test.janus.db.ConnectionSource;
 
 public class DerbyTest {
@@ -15,6 +13,8 @@ public class DerbyTest {
     public DerbyTest() {
 
     }
+    
+  
 
     @Test
     public void dbVerbindung() {
@@ -23,7 +23,6 @@ public class DerbyTest {
             con.close();
         } catch (Exception e) {
             LOG.error("Fehler", e);
-            ;
             fail(e.getLocalizedMessage());
         }
     }
