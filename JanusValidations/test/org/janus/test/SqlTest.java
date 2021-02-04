@@ -13,12 +13,15 @@
 package org.janus.test;
 
 import static org.junit.Assert.assertEquals;
+
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -69,6 +72,12 @@ public class SqlTest {
     }
 
     private static void mybaseEntfernen() throws IOException {
+    	try {
+			DriverManager.getConnection(
+				    "jdbc:derby:mybase1;shutdown=true");
+		} catch (SQLException e) {
+			// Datenbank beenden
+		}
         File f = new File("mybase1");
         boolean deleteTables = f.exists();
         if (deleteTables) {
