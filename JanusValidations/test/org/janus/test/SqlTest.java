@@ -66,7 +66,7 @@ public class SqlTest {
 
     @AfterClass
     public static void deinit() throws IOException {
-
+    	
         mybaseEntfernen();
 
     }
@@ -75,15 +75,23 @@ public class SqlTest {
     	try {
 			DriverManager.getConnection(
 				    "jdbc:derby:mybase1;shutdown=true");
-		} catch (SQLException e) {
+		} catch (SQLException e1) {
 			// Datenbank beenden
 		}
-        File f = new File("mybase1");
+        try {
+			cleanDbFiles();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+    }
+
+	private static void cleanDbFiles() throws IOException {
+		File f = new File("mybase1");
         boolean deleteTables = f.exists();
         if (deleteTables) {
             cleanDir(f);
         }
-    }
+	}
 
     private static void cleanDir(File p) throws IOException {
         File files[] = p.listFiles();
