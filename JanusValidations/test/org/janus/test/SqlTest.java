@@ -52,7 +52,7 @@ public class SqlTest {
         PropertyConfigurator.configure(SqlTest.class.getClassLoader()
                 .getResource("config/log4j.properties"));
 
-        mybaseEntfernen();
+       // mybaseEntfernen();
         dataSource = ConnectionSource.getDataSource();
         File f = new File("mybase1");
         boolean createTables = !f.exists();
@@ -67,7 +67,7 @@ public class SqlTest {
     @AfterClass
     public static void deinit() throws IOException {
     	
-        mybaseEntfernen();
+       // mybaseEntfernen();
 
     }
 
